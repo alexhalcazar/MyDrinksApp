@@ -1,0 +1,15 @@
+/* Remove default margin and padding from body */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+hr {
+  border-top: 2px solid black; /* Make the line black */
+  margin: 0; /* Remove default margin */
+  width: 100%; /* Ensure hr stretches across full width */
+}
+
+.image-container {
+  padding: 2rem;
+}
