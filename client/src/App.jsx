@@ -16,22 +16,22 @@ const App = () => {
                     <div className="card-grid">
                         <Card
                             title="Create Drink"
-                            imgSrc="./public/createDrink.jpg"
+                            imgSrc="/public/createDrink.jpg"
                             imgAlt="A drink"
                         />
                         <Card
                             title="My Drinks"
-                            imgSrc="./public/createDrink.jpg"
+                            imgSrc="/public/createDrink.jpg"
                             imgAlt="A drink"
                         />
                         <Card
                             title="Search Drinks"
-                            imgSrc="./public/createDrink.jpg"
+                            imgSrc="/public/createDrink.jpg"
                             imgAlt="A drink"
                         />
                         <Card
                             title="Random Drink"
-                            imgSrc="./public/createDrink.jpg"
+                            imgSrc="/public/createDrink.jpg"
                             imgAlt="A drink"
                         />
                     </div>
