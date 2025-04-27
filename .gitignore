@@ -40,3 +40,12 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+# env variables
+.env
+
+# Ignore build/dist folder
+client/dist/
+
+# Ignore node_modules directory
+node_modules/
