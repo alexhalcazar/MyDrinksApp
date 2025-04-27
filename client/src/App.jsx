@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route} from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import Card from './components/Card.jsx'
 import './App.css'
-// import createDrinkImg from '../public/createDrink.jpg';
+import createDrink from './assets/createDrink.jpg';
 
 const App = () => {
     return (
@@ -16,22 +16,22 @@ const App = () => {
                     <div className="card-grid">
                         <Card
                             title="Create Drink"
-                            imgSrc="/public/createDrink.jpg"
+                            imgSrc={createDrink}
                             imgAlt="A drink"
                         />
                         <Card
                             title="My Drinks"
-                            imgSrc="/public/createDrink.jpg"
+                            imgSrc={createDrink}
                             imgAlt="A drink"
                         />
                         <Card
                             title="Search Drinks"
-                            imgSrc="/public/createDrink.jpg"
+                            imgSrc={createDrink}
                             imgAlt="A drink"
                         />
                         <Card
                             title="Random Drink"
-                            imgSrc="/public/createDrink.jpg"
+                            imgSrc={createDrink}
                             imgAlt="A drink"
                         />
                     </div>
