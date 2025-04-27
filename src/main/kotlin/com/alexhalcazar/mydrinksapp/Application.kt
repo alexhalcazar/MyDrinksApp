@@ -13,7 +13,7 @@ fun main() {
             get("/") {
                 call.respondFile(File("src/main/resources/static/index.html"))
             }
-            staticFiles("/static", File("src/main/resources/static"))
+            staticFiles("/", File("src/main/resources/static"))
 
         }
     }.start(wait = true)
