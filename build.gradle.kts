@@ -7,6 +7,7 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven { url = uri("https://repo.mongodb.org/maven2") }
 }
 
 dependencies {
@@ -15,12 +16,21 @@ dependencies {
     implementation("io.ktor:ktor-server-netty-jvm:3.1.2")
     implementation("ch.qos.logback:logback-classic:1.4.14") // Logging
     testImplementation("io.ktor:ktor-server-test-host-jvm:3.1.2")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.9.22")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:2.1.0")
+    implementation("io.github.cdimascio:dotenv-kotlin:6.5.1")
+    // Kotlin coroutine dependency
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    // MongoDB Kotlin driver dependency
+    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:5.4.0")
+    implementation("org.mongodb:bson-kotlinx:5.4.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.0")
 }
 
 tasks.test {
     useJUnitPlatform()
 }
 kotlin {
-    jvmToolchain(23)
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
 }
