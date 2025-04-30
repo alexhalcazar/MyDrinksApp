@@ -12,6 +12,7 @@ import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.http.*
 import kotlinx.serialization.Serializable
+import com.alexhalcazar.mydrinksapp.model.setupConnection
 
 suspend fun searchDrink(call: ApplicationCall, name: String) {
     val client = HttpClient(CIO) {
@@ -22,17 +23,29 @@ suspend fun searchDrink(call: ApplicationCall, name: String) {
             })
         }
     }
-    val cocktailURL:String = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=$name"
-    val response: HttpResponse = client.get(cocktailURL)
+    val cocktailURL = "https://www.thecocktaildb.com/api/json/v1/1/search.php?"
+    val response: HttpResponse = client.get(cocktailURL) {parameter("s", name)}
     val drinks = response.body<DrinkResponse>()
-    println(drinks.drinks.toString())
+    if (drinks.drinks.isNullOrEmpty()) {
+        call.respond(HttpStatusCode.NotFound, "Failed to find drinks for $name")
+        return
+    }
     call.respond(drinks.drinks.toString())
     return
 }
 
+suspend fun addDrink(drink: Drink) {
+    val database = setupConnection()
+    if (database == null) {
+        return
+    }
+    val collection = database.getCollection<Drink>("drinks")
+    collection.insertOne(drink)
+}
+
 @Serializable
 data class DrinkResponse(
-    val drinks: List<Drink>
+    val drinks: List<Drink>?
 )
 
 @Serializable
