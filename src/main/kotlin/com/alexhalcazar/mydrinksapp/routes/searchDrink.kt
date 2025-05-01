@@ -30,7 +30,7 @@ suspend fun searchDrink(call: ApplicationCall, name: String) {
         call.respond(HttpStatusCode.NotFound, "Failed to find drinks for $name")
         return
     }
-    call.respond(drinks.drinks.toString())
+    call.respond(drinks.drinks)
     return
 }
 
@@ -56,5 +56,5 @@ data class Drink(
     val strCategory: String?,
     val strAlcoholic: String?,
     val strGlass: String?,
-    val strImageSource: String?
+    val strDrinkThumb: String?
 )

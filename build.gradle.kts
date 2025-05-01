@@ -13,9 +13,12 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    implementation("io.ktor:ktor-server-cors:3.1.2")
     implementation("io.ktor:ktor-client-core:3.1.2") //HTTP requests
     implementation("io.ktor:ktor-client-cio:3.1.2") //HTTP engine
     implementation("io.ktor:ktor-client-content-negotiation:3.1.2")
+    implementation("io.ktor:ktor-client-serialization:3.1.2")
+    implementation("io.ktor:ktor-server-content-negotiation:3.1.2")
     implementation("io.ktor:ktor-serialization-kotlinx-json:3.1.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
     implementation("io.ktor:ktor-server-core-jvm:3.1.2")
