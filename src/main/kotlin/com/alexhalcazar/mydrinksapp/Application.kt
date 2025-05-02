@@ -7,7 +7,7 @@ import io.ktor.server.http.content.*
 import io.ktor.server.netty.*
 import java.io.File
 
-/// THESE imports below are mine and can be changed do not remove team memebers above
+
 // Ktor Client Imports
 import io.ktor.client.*
 import io.ktor.client.request.*
@@ -23,11 +23,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 // Data model for the cocktail response
-@Serializable
-data class CocktailResponse(
-    val drinks: List<Cocktail>
-)
-
 @Serializable
 data class Cocktail(
     val strDrink: String,
@@ -67,12 +62,11 @@ data class Cocktail(
 
 fun main() {
     embeddedServer(Netty, port = 8080) {
-        // Install the ContentNegotiation feature with JSON support
         install(ContentNegotiation) {
             json(Json {
                 prettyPrint = true
                 isLenient = true
-                ignoreUnknownKeys = true // Important when parsing external APIs
+                ignoreUnknownKeys = true
             })
         }
 
