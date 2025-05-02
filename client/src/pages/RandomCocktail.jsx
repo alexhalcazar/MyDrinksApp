@@ -4,65 +4,127 @@ import './RandomCocktail.css';
 const RandomCocktail = () => {
   const [cocktail, setCocktail] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchRandomCocktail = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php');
-      const data = await response.json();
-      setCocktail(data.drinks[0]);
-    } catch (error) {
-      console.error('Error fetching random cocktail:', error);
-    } finally {
-      setLoading(false);
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await fetch('/api/random-drink');
+
+        if (!response.ok) {
+          throw new Error(`Server responded with status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!data.drinks || data.drinks.length === 0) {
+          throw new Error('No cocktail data returned from API');
+        }
+
+        setCocktail(data.drinks[0]);
+      } catch (error) {
+        console.error('Error fetching random cocktail:', error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    useEffect(() => {
+      fetchRandomCocktail();
+    }, []);
+
+    if (loading) {
+      return <div className="loading-container">Loading...</div>;
     }
+
+    if (error) {
+      return (
+        <div className="error-container">
+          <p>Error: {error}</p>
+          <button onClick={fetchRandomCocktail} className="retry-button">
+            Try Again
+          </button>
+        </div>
+      );
+    }
+
+    if (!cocktail) {
+      return (
+        <div className="not-found-container">
+          <p>No cocktail found.</p>
+          <button onClick={fetchRandomCocktail} className="retry-button">
+            Try Again
+          </button>
+        </div>
+      );
+    }
+
+    // Helper function to get all valid ingredients and measures
+    const getIngredients = () => {
+      const ingredients = [];
+
+      for (let i = 1; i <= 15; i++) {
+        const ingredient = cocktail[`strIngredient${i}`];
+        const measure = cocktail[`strMeasure${i}`];
+
+        if (ingredient && ingredient.trim() !== '') {
+          ingredients.push({
+            ingredient,
+            measure: measure || ''
+          });
+        }
+      }
+
+      return ingredients;
+    };
+
+    const ingredients = getIngredients();
+
+    return (
+      <div className="random-cocktail-container">
+        <h2>{cocktail.strDrink}</h2>
+
+        <div className="card">
+          <img
+            src={cocktail.strDrinkThumb}
+            alt={cocktail.strDrink}
+            className="cocktail-image"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'https://placehold.co/400x400?text=No+Image';
+            }}
+          />
+
+          <div className="ingredients-container">
+            <h3>Ingredients:</h3>
+            {ingredients.length > 0 ? (
+              <ul>
+                {ingredients.map((item, index) => (
+                  <li key={index}>
+                    {item.measure && `${item.measure.trim()} `}
+                    {item.ingredient}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No ingredients information available</p>
+            )}
+          </div>
+        </div>
+
+        <div className="instructions-container">
+          <h3>Instructions:</h3>
+          <p>{cocktail.strInstructions || 'No instructions available'}</p>
+        </div>
+
+        <button onClick={fetchRandomCocktail} className="random-drink-button">
+          Get Another Random Drink
+        </button>
+      </div>
+    );
   };
 
-  useEffect(() => {
-    fetchRandomCocktail();
-  }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!cocktail) {
-    return <div>No cocktail found.</div>;
-  }
-
-  return (
-    <div className="random-cocktail-container">
-      <h2>{cocktail.strDrink}</h2>
-
-      <div className="card">
-        <img src={cocktail.strDrinkThumb} alt={cocktail.strDrink} className="cocktail-image" />
-
-        <div className="ingredients-container">
-          <h3>Ingredients:</h3>
-          <ul>
-            {Array.from({ length: 15 }, (_, index) => {
-              const ingredient = cocktail[`strIngredient${index + 1}`];
-              const measure = cocktail[`strMeasure${index + 1}`];
-              return ingredient ? (
-                <li key={index}>
-                  {measure ? `${measure} ` : ''}{ingredient}
-                </li>
-              ) : null;
-            })}
-          </ul>
-        </div>
-      </div>
-
-      <div className="instructions-container">
-        <h3>Instructions:</h3>
-        <p>{cocktail.strInstructions}</p>
-      </div>
-
-      <button onClick={fetchRandomCocktail} className="random-drink-button">
-        Get Another Random Drink
-      </button>
-    </div>
-  );
-};
-
-export default RandomCocktail;
+  export default RandomCocktail;

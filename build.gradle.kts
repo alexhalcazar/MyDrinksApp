@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "2.1.0"
+    kotlin("plugin.serialization") version "2.1.0"
 }
 
 group = "org.example"
@@ -24,6 +25,13 @@ dependencies {
     implementation("org.mongodb:mongodb-driver-kotlin-coroutine:5.4.0")
     implementation("org.mongodb:bson-kotlinx:5.4.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.0")
+    // Ktor HTTP client requests
+    implementation("io.ktor:ktor-client-core:3.1.2")
+    implementation("io.ktor:ktor-client-cio:3.1.2")
+    // Add Ktor serialization module
+    implementation("io.ktor:ktor-serialization-kotlinx-json:3.1.2")
+    implementation("io.ktor:ktor-server-content-negotiation:3.1.2")
+
 }
 
 tasks.test {
