@@ -1,7 +1,7 @@
 package com.alexhalcazar.mydrinksapp
-import com.alexhalcazar.mydrinksapp.routes.Drink
+import com.alexhalcazar.mydrinksapp.model.Drink
 import com.alexhalcazar.mydrinksapp.routes.searchDrink
-import com.alexhalcazar.mydrinksapp.routes.addDrink
+import com.alexhalcazar.mydrinksapp.model.addDrink
 import io.ktor.server.plugins.cors.routing.*
 import io.ktor.http.*
 import io.ktor.server.application.*
