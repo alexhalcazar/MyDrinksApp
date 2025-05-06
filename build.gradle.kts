@@ -24,7 +24,7 @@ dependencies {
     // MongoDB Kotlin driver dependency
     implementation("org.mongodb:mongodb-driver-kotlin-coroutine:5.4.0")
     implementation("org.mongodb:bson-kotlinx:5.4.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.0")
+    //implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.0")
     // Ktor HTTP client requests
     implementation("io.ktor:ktor-client-core:3.1.2")
     implementation("io.ktor:ktor-client-cio:3.1.2")

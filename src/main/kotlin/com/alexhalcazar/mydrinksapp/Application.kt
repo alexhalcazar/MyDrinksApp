@@ -1,5 +1,7 @@
 package com.alexhalcazar.mydrinksapp
 
+import com.alexhalcazar.mydrinksapp.service.DrinksApiService
+
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.engine.*
@@ -9,56 +11,19 @@ import java.io.File
 
 
 // Ktor Client Imports
-import io.ktor.client.*
+/*import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.engine.cio.*
-import io.ktor.client.statement.*
+import io.ktor.client.statement.**/
 import io.ktor.http.*
 
 // Content Negotiation
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
-import kotlinx.serialization.Serializable
+/*import kotlinx.serialization.Serializable*/
 import kotlinx.serialization.json.Json
 
-// Data model for the cocktail response
-@Serializable
-data class Cocktail(
-    val strDrink: String,
-    val strDrinkThumb: String,
-    val strInstructions: String,
-    val strIngredient1: String?,
-    val strIngredient2: String?,
-    val strIngredient3: String?,
-    val strIngredient4: String?,
-    val strIngredient5: String?,
-    val strIngredient6: String?,
-    val strIngredient7: String?,
-    val strIngredient8: String?,
-    val strIngredient9: String?,
-    val strIngredient10: String?,
-    val strIngredient11: String?,
-    val strIngredient12: String?,
-    val strIngredient13: String?,
-    val strIngredient14: String?,
-    val strIngredient15: String?,
-    val strMeasure1: String?,
-    val strMeasure2: String?,
-    val strMeasure3: String?,
-    val strMeasure4: String?,
-    val strMeasure5: String?,
-    val strMeasure6: String?,
-    val strMeasure7: String?,
-    val strMeasure8: String?,
-    val strMeasure9: String?,
-    val strMeasure10: String?,
-    val strMeasure11: String?,
-    val strMeasure12: String?,
-    val strMeasure13: String?,
-    val strMeasure14: String?,
-    val strMeasure15: String?
-)
 
 fun main() {
     embeddedServer(Netty, port = 8080) {
@@ -80,7 +45,7 @@ fun main() {
             // Proxy route for the frontend
             get("/api/random-drink") {
                 try {
-                    val cocktailJson = fetchRandomCocktail()
+                    val cocktailJson = DrinksApiService.fetchRandomCocktailJson()
                     call.respondText(cocktailJson, ContentType.Application.Json)
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, "Error fetching cocktail data: ${e.message}")
@@ -88,18 +53,4 @@ fun main() {
             }
         }
     }.start(wait = true)
-}
-
-// Ktor HTTP client to fetch the cocktail data
-suspend fun fetchRandomCocktail(): String {
-    val client = HttpClient(CIO)
-
-    try {
-        val response: HttpResponse = client.get("https://www.thecocktaildb.com/api/json/v1/1/random.php")
-        return response.bodyAsText() // Return the raw JSON string
-    } catch (e: Exception) {
-        throw Exception("Error fetching cocktail data: ${e.message}")
-    } finally {
-        client.close()
-    }
 }
