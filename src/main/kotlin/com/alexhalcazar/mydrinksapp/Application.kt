@@ -44,12 +44,13 @@ fun main() {
                 addDrink(drink)
                 call.respond(HttpStatusCode.OK, "Drink added to My Drinks")
             }
+
             staticFiles("/", File("src/main/resources/static"))
-            // Static files and root route
+            staticFiles("/assets", File("src/main/resources/static/assets"))
+
             get("/") {
                 call.respondFile(File("src/main/resources/static/index.html"))
             }
-            staticFiles("/", File("src/main/resources/static"))
 
             // Proxy route for the frontend
             get("/api/random-drink") {
