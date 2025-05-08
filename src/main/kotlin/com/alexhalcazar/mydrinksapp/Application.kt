@@ -31,11 +31,9 @@ fun main() {
         }
 
         routing {
-            // Static files and root route
-            get("/") {
-                call.respondFile(File("src/main/resources/static/index.html"))
-            }
-            staticFiles("/", File("src/main/resources/static"))
+
+            staticFiles("/", File("src/main/resources/static/asset/index.html"))
+            staticFiles("/assets", File("src/main/resources/static/assets"))
 
             // Proxy route for the frontend
             get("/api/random-drink") {
@@ -45,6 +43,10 @@ fun main() {
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, "Error fetching cocktail data: ${e.message}")
                 }
+            }
+
+            get("/") {
+                call.respondFile(File("src/main/resources/static/index.html"))
             }
         }
     }.start(wait = true)
