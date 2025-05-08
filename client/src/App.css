@@ -26,6 +26,13 @@ footer {
   border: 2px solid black;
   display: inline-block;
   text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.05); /* grow slightly */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* add a nice shadow */
+  cursor: pointer; /* show hand cursor */
 }
 
 .card:hover {

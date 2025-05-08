@@ -3,18 +3,20 @@ import com.alexhalcazar.mydrinksapp.model.Drink
 import com.alexhalcazar.mydrinksapp.routes.searchDrink
 import com.alexhalcazar.mydrinksapp.model.addDrink
 import io.ktor.server.plugins.cors.routing.*
-import io.ktor.http.*
-import io.ktor.server.application.*
+import com.alexhalcazar.mydrinksapp.service.DrinksApiService
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.engine.*
 import io.ktor.server.http.content.*
 import io.ktor.server.netty.*
 import java.io.File
-
+import io.ktor.server.request.receive
+// Ktor Client Imports
+import io.ktor.http.*
+// Content Negotiation
+import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
-import io.ktor.server.request.receive
 import kotlinx.serialization.json.Json
 
 fun main() {
@@ -23,6 +25,7 @@ fun main() {
             json(Json {
                 ignoreUnknownKeys = true
                 isLenient = true
+                prettyPrint = true
             })
         }
 
@@ -42,6 +45,21 @@ fun main() {
                 call.respond(HttpStatusCode.OK, "Drink added to My Drinks")
             }
             staticFiles("/", File("src/main/resources/static"))
+            // Static files and root route
+            get("/") {
+                call.respondFile(File("src/main/resources/static/index.html"))
+            }
+            staticFiles("/", File("src/main/resources/static"))
+
+            // Proxy route for the frontend
+            get("/api/random-drink") {
+                try {
+                    val cocktailJson = DrinksApiService.fetchRandomCocktailJson()
+                    call.respondText(cocktailJson, ContentType.Application.Json)
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, "Error fetching cocktail data: ${e.message}")
+                }
+            }
         }
     }.start(wait = true)
 }

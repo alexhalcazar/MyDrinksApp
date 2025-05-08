@@ -1,0 +1,68 @@
+.random-cocktail-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+.random-cocktail-container h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+.cocktail-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.ingredients-container {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ingredients-container li {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.instructions-container {
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #333;
+}
+
+.random-drink-button {
+  background-color: #008CBA;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 1rem;
+}
+
+.random-drink-button:hover {
+  background-color: #005f72;
+}
