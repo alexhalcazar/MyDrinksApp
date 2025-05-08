@@ -1,5 +1,6 @@
-import { BrowserRouter, Routes, Route} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link} from "react-router-dom";
 import Home from "./pages/Home.jsx";
+import SearchDrink from "./pages/SearchDrink.jsx";
 import RandomCocktail from "./pages/RandomCocktail.jsx";
 import Card from './components/Card.jsx'
 import './App.css'
@@ -27,11 +28,13 @@ const App = () => {
                                     imgSrc={createDrink}
                                     imgAlt="A drink"
                                 />
-                                <Card
-                                    title="Search Drinks"
-                                    imgSrc={createDrink}
-                                    imgAlt="A drink"
-                                />
+                                <Link to="/search">
+                                    <Card
+                                        title="Search Drinks"
+                                        imgSrc={createDrink}
+                                        imgAlt="A drink"
+                                    />
+                                </Link>
                                 <Card
                                     title="Random Drink"
                                     imgSrc={createDrink}
@@ -40,6 +43,7 @@ const App = () => {
                                 />
                             </div>
                         } />
+                        <Route path="/search" element={<SearchDrink />} />
                         <Route path="/random" element={<RandomCocktail />} />
                     </Routes>
                 </div>
