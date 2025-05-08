@@ -17,7 +17,7 @@ function SearchDrinkCard({ drink }) {
             }
             alert("Drink added to My Drinks"); 
         } catch (error) {
-            alert("Error adding drink to My Drinks");
+            alert(error, "Error adding drink to My Drinks");
         }
     };
     

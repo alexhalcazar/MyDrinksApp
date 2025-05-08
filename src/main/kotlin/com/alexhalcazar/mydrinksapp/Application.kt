@@ -34,9 +34,9 @@ fun main() {
         }
 
         routing {
-            get("/") {
-                call.respondFile(File("src/main/resources/static/index.html"))
-            }
+            //get("/") {
+            //    call.respondFile(File("src/main/resources/static/index.html"))
+            //}
             //example: /search?name=margarita
             get("/search") {
                 val name:String? = call.request.queryParameters["name"]
@@ -52,7 +52,6 @@ fun main() {
                 call.respond(HttpStatusCode.OK, "Drink added to My Drinks")
             }
             staticFiles("/", File("src/main/resources/static"))
-
         }
     }.start(wait = true)
 }

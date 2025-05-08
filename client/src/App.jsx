@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, useNavigate} from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import SearchDrink from "./pages/SearchDrink.jsx";
 import Card from './components/Card.jsx'
@@ -27,11 +27,13 @@ const App = () => {
                                     imgSrc={createDrink}
                                     imgAlt="A drink"
                                 />
-                                <Card
-                                    title="Search Drinks"
-                                    imgSrc={createDrink}
-                                    imgAlt="A drink"
-                                />
+                                <Link to="/search">
+                                    <Card
+                                        title="Search Drinks"
+                                        imgSrc={createDrink}
+                                        imgAlt="A drink"
+                                    />
+                                </Link>
                                 <Card
                                     title="Random Drink"
                                     imgSrc={createDrink}
