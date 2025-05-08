@@ -49,3 +49,6 @@ client/dist/
 
 # Ignore node_modules directory
 node_modules/
+
+# Ignore copied frontend build files
+src/main/resources/static/*
