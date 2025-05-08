@@ -3,7 +3,7 @@ import './SearchDrink.css';
 import DrinksGrid from '../components/SearchDrinkCard';
 
 async function retrieveDrinks(name) {
-    const response = await fetch(`http://localhost:8080/search?name=${encodeURIComponent(name)}`,{
+    const response = await fetch(`/api/drinks?name=${encodeURIComponent(name)}`,{
         headers: {
             'Accept': 'application/json'
         }

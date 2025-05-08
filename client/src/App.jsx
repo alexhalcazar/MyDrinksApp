@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link, useNavigate} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link} from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import SearchDrink from "./pages/SearchDrink.jsx";
 import Card from './components/Card.jsx'

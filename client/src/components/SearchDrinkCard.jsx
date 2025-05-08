@@ -4,7 +4,7 @@ import "./SearchDrinkCard.css"
 function SearchDrinkCard({ drink }) {
     const SaveDrink = async () => {
         try {
-            const response = await fetch("http://localhost:8080/save", {
+            const response = await fetch("/api/drinks", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

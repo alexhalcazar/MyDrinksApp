@@ -19,13 +19,6 @@ import kotlinx.serialization.json.Json
 
 fun main() {
     embeddedServer(Netty, port = 8080) {
-        install(CORS) {
-            anyHost()
-            allowHeader(HttpHeaders.ContentType)
-            allowMethod(HttpMethod.Get)
-            allowMethod(HttpMethod.Post)
-        }
-
         install(ContentNegotiation) {
             json(Json {
                 ignoreUnknownKeys = true
@@ -34,11 +27,8 @@ fun main() {
         }
 
         routing {
-            //get("/") {
-            //    call.respondFile(File("src/main/resources/static/index.html"))
-            //}
             //example: /search?name=margarita
-            get("/search") {
+            get("/api/drinks") {
                 val name:String? = call.request.queryParameters["name"]
                 if (name != null) {
                     searchDrink(call, name)
@@ -46,7 +36,7 @@ fun main() {
                     call.respondText("PROVIDE DRINK NAME", status = io.ktor.http.HttpStatusCode.BadRequest)
                 }
             }
-            post("/save") {
+            post("/api/drinks") {
                 val drink = call.receive<Drink>()
                 addDrink(drink)
                 call.respond(HttpStatusCode.OK, "Drink added to My Drinks")
