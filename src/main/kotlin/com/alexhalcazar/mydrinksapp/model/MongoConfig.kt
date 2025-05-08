@@ -9,7 +9,7 @@ import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import kotlinx.coroutines.runBlocking
 
 suspend fun setupConnection(
-    databaseName: String = "sample_restaurants",
+    databaseName: String = "MyDrinks",
     connectionEnvVariable: String = "MONGODB_URI"
 ): MongoDatabase? {
     val dotenv = dotenv()
