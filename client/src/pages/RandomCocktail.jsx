@@ -5,10 +5,12 @@ const RandomCocktail = () => {
   const [cocktail, setCocktail] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [saveStatus, setSaveStatus] = useState(null);
 
   const fetchRandomCocktail = async () => {
       setLoading(true);
       setError(null);
+      setSaveStatus(null);
 
       try {
         const response = await fetch('/api/random-drink');
@@ -29,6 +31,29 @@ const RandomCocktail = () => {
         setError(error.message);
       } finally {
         setLoading(false);
+      }
+    };
+
+    const saveDrink = async () => {
+      if (!cocktail) return;
+
+      try {
+        const response = await fetch("/api/drinks", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cocktail),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to add drink to My Drinks");
+        }
+
+        setSaveStatus({ success: true, message: "Drink saved to My Drinks!" });
+      } catch (error) {
+        console.error('Error saving drink:', error);
+        setSaveStatus({ success: false, message: "Error saving drink. Please try again." });
       }
     };
 
@@ -120,9 +145,20 @@ const RandomCocktail = () => {
           <p>{cocktail.strInstructions || 'No instructions available'}</p>
         </div>
 
-        <button onClick={fetchRandomCocktail} className="random-drink-button">
-          Get Another Random Drink
-        </button>
+        <div className="action-buttons">
+          <button onClick={fetchRandomCocktail} className="random-drink-button">
+            Get Another Random Drink
+          </button>
+          <button onClick={saveDrink} className="save-button">
+            Save This Drink
+          </button>
+        </div>
+
+        {saveStatus && (
+          <div className={`save-status ${saveStatus.success ? 'success' : 'error'}`}>
+            {saveStatus.message}
+          </div>
+        )}
       </div>
     );
   };
