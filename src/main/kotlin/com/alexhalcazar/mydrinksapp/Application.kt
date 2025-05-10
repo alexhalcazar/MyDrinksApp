@@ -2,6 +2,7 @@ package com.alexhalcazar.mydrinksapp
 import com.alexhalcazar.mydrinksapp.model.Drink
 import com.alexhalcazar.mydrinksapp.routes.searchDrink
 import com.alexhalcazar.mydrinksapp.model.addDrink
+import com.alexhalcazar.mydrinksapp.model.getMyDrinks
 import io.ktor.server.plugins.cors.routing.*
 import com.alexhalcazar.mydrinksapp.service.DrinksApiService
 import io.ktor.server.response.*
@@ -43,6 +44,16 @@ fun main() {
                 val drink = call.receive<Drink>()
                 addDrink(drink)
                 call.respond(HttpStatusCode.OK, "Drink added to My Drinks")
+            }
+
+            // returns drink list to the front-end, input at `MyDrinks.jsx`
+            get("/api/my-drinks") {
+                try {
+                    val drinks = getMyDrinks()
+                    call.respond(drinks)
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, "Error fetching drinks: ${e.message}")
+                }
             }
 
             staticFiles("/", File("src/main/resources/static"))
