@@ -7,6 +7,8 @@ const MyDrinks = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // Calls my-drinks endpoint in Application.kt, to grab any saved
+    // drinks in the database
     const fetchMyDrinks = async () => {
         setLoading(true);
         setError(null);
@@ -27,15 +29,17 @@ const MyDrinks = () => {
         }
     };
 
-    // Fetch the drinks when the component mounts
+    // Fetches the drinks when the component mounts
     useEffect(() => {
         fetchMyDrinks();
     }, []);
 
+    // Temp loading feature
     if (loading) {
         return <div className="loading-container">Loading...</div>;
     }
 
+    // Error handling
     if (error) {
         return (
             <div className="error-container">
@@ -47,6 +51,7 @@ const MyDrinks = () => {
         );
     }
 
+    // Empty List handling
     if (!drinks.length) {
         return (
             <div className="not-found-container">
@@ -61,10 +66,10 @@ const MyDrinks = () => {
     return (
         <div className="my-drinks-container">
             <h2>My Saved Drinks</h2>
-            <div className="drinks-list">
-                {drinks.map((drink, index) => (
-                    <MyDrinkCard key={index} drink={drink} />
-                ))}
+            <div className="drink-list">
+              {drinks.map((drink, index) => (
+                <MyDrinkCard key={index} drink={drink} />
+              ))}
             </div>
         </div>
     );
