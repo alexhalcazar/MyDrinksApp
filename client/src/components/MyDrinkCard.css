@@ -1,0 +1,21 @@
+.drink-card {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.drink-card img {
+    max-width: 100px;
+    margin-right: 1rem;
+}
+
+.drink-details {
+    flex: 1;
+}
+
+.drink-tags {
+    font-size: 0.9rem;
+    color: #666;
+}
