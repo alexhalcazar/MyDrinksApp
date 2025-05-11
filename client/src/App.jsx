@@ -1,5 +1,4 @@
-import { BrowserRouter, Routes, Route, Link} from "react-router-dom";
-import Home from "./pages/Home.jsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SearchDrink from "./pages/SearchDrink.jsx";
 import MyDrinks from "./pages/MyDrinks.jsx";
 import RandomCocktail from "./pages/RandomCocktail.jsx";
@@ -30,13 +29,12 @@ const App = () => {
                                     imgAlt="A drink"
                                     link="/list"
                                 />
-                                <Link to="/search">
-                                    <Card
-                                        title="Search Drinks"
-                                        imgSrc={createDrink}
-                                        imgAlt="A drink"
-                                    />
-                                </Link>
+                                <Card
+                                    title="Search Drinks"
+                                    imgSrc={createDrink}
+                                    imgAlt="A drink"
+                                    link="/search"
+                                />
                                 <Card
                                     title="Random Drink"
                                     imgSrc={createDrink}
