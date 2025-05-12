@@ -1,9 +1,9 @@
 import './MyDrinkCard.css';
 import temp from '../assets/createDrink.jpg'
 
-const MyDrinkCard = ({ drink, onClick }) => {
+const MyDrinkCard = ({ drink }) => {
     return (
-        <div className="drink-card" onClick={() => onClick(drink)}>
+        <div className="drink-card">
             <img
             src={drink.strDrinkThumb}
             alt={drink.strDrink}
