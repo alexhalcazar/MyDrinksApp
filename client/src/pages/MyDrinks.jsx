@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import './MyDrinks.css';
+import './shared.css'
 import MyDrinkCard from '../components/MyDrinkCard';
 
 const MyDrinks = () => {
@@ -7,7 +9,7 @@ const MyDrinks = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [filterType, setFilterType] = useState('all')
-
+    const navigate = useNavigate();
     // Calls my-drinks endpoint in Application.kt, to grab any saved
     // drinks in the database
     const fetchMyDrinks = async () => {
@@ -70,8 +72,13 @@ const MyDrinks = () => {
         );
     }
 
+    const goHome = () => {
+        navigate("/");
+    }
+
     return (
         <div className="my-drinks-container">
+            <button onClick={goHome} className="home-button">Home</button>
             <h2>My Saved Drinks</h2>
             <label htmlFor="filter">Filter by type: </label>
             <select id="filter" value={filterType} onChange={handleFilterChange}>

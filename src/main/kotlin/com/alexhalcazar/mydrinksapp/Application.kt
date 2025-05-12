@@ -31,6 +31,10 @@ fun main() {
         }
 
         routing {
+            // serve static files from the root path
+            staticFiles("/", File("src/main/resources/static"))
+            // serve static assets
+            staticFiles("/assets", File("src/main/resources/static/assets"))
             //example: /search?name=margarita
             get("/api/drinks") {
                 val name:String? = call.request.queryParameters["name"]
@@ -57,14 +61,6 @@ fun main() {
                 }
             }
 
-            staticFiles("/", File("src/main/resources/static"))
-            staticFiles("/assets", File("src/main/resources/static/assets"))
-
-            get("/") {
-                call.respondFile(File("src/main/resources/static/index.html"))
-            }
-
-            // Proxy route for the frontend
             get("/api/random-drink") {
                 try {
                     val cocktailJson = DrinksApiService.fetchRandomCocktailJson()
@@ -72,6 +68,10 @@ fun main() {
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, "Error fetching cocktail data: ${e.message}")
                 }
+            }
+
+            get("/") {
+                call.respondFile(File("src/main/resources/static/index.html"))
             }
         }
     }.start(wait = true)

@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import './RandomCocktail.css';
+import './shared.css'
 
 const RandomCocktail = () => {
   const [cocktail, setCocktail] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [saveStatus, setSaveStatus] = useState(null);
+  const navigate = useNavigate();
 
   const fetchRandomCocktail = async () => {
       setLoading(true);
@@ -107,9 +110,12 @@ const RandomCocktail = () => {
     };
 
     const ingredients = getIngredients();
-
+    const goHome = () => {
+      navigate("/");
+    }
     return (
       <div className="random-cocktail-container">
+        <button onClick={goHome} className="home-button">Home</button>
         <h2>{cocktail.strDrink}</h2>
 
         <div className="card">
