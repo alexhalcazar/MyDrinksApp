@@ -19,7 +19,6 @@ suspend fun addDrink(drink: Drink) {
 // our DB a global variable to grab from. Would could possibly implement
 // a lazy function to it. I'm doing it for the time being, because I'm still testing.
 suspend fun getMyDrinks(filter: String?): List<Drink> {
-    println(filter)
     if (filter == null) {
         return emptyList()
     }
