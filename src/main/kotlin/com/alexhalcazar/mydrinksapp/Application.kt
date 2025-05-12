@@ -46,8 +46,12 @@ fun main() {
             }
             post("/api/drinks") {
                 val drink = call.receive<Drink>()
-                addDrink(drink)
-                call.respond(HttpStatusCode.OK, "Drink added to My Drinks")
+                if (addDrink(drink)) {
+                    call.respondText("Drink added to My Drinks", status = io.ktor.http.HttpStatusCode.OK)
+                } else {
+                    call.respondText("Drink already in My Drinks", status = io.ktor.http.HttpStatusCode.BadRequest)
+                }
+
             }
 
             // returns drink list to the front-end, input at `MyDrinks.jsx`

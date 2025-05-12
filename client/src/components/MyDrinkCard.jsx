@@ -14,7 +14,7 @@ const MyDrinkCard = ({ drink }) => {
             }}
             />
             <div className="drink-details">
-                <h3>{drink.name}</h3>
+                <h3>{drink.strDrink}</h3>
                 <p><strong>Category:</strong> {drink.strCategory}</p>
                 <p><strong>Type:</strong> {drink.strAlcoholic}</p>
                 <p><strong>Glass:</strong> {drink.strGlass}</p>
