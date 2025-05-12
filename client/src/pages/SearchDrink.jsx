@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import './SearchDrink.css';
+import './shared.css'
 import DrinksGrid from '../components/SearchDrinkCard';
+import { useNavigate } from "react-router-dom";
 
 async function retrieveDrinks(name) {
     const response = await fetch(`/api/drinks?name=${encodeURIComponent(name)}`,{
@@ -18,6 +20,7 @@ async function retrieveDrinks(name) {
 function SearchDrink() {
     const [query, setQuery] = useState("");
     const [results, setResults] = useState([]);
+    const navigate = useNavigate();
 
     const handleSearch = async () => {
         try {
@@ -28,9 +31,14 @@ function SearchDrink() {
         }
     };
 
+    const goHome = () => {
+        navigate("/");
+    }
+
     return (
         <div className="app-container">
             <div className="main-content">
+                <button onClick={goHome} className="home-button">Home</button>
                 <div className="search">
                     <input className="search-input" value={query} onChange={e => setQuery(e.target.value)} placeholder="Search Cocktails" />
                     <button className="search-button" onClick={handleSearch}>Search</button>
