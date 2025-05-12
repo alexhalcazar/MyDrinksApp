@@ -26,12 +26,6 @@ import kotlinx.serialization.json.Json
 fun main() {
     embeddedServer(Netty, port = 8080) {
 
-        runBlocking {
-            println("Fetching ingredients...")
-            fetchAndCacheAllIngredients()
-            println("All ingredients fetched successfully...")
-        }
-
         install(ContentNegotiation) {
             json(Json {
                 ignoreUnknownKeys = true
@@ -56,9 +50,9 @@ fun main() {
                 call.respond(HttpStatusCode.OK, "Drink added to My Drinks")
             }
 
-            get("/api/ingredients") {
-                call.respond(IngredientCache.ingredientsList)
-            }
+//            get("/api/ingredients") {
+//                call.respond(IngredientCache.ingredientsList)
+//            }
 
             // create a drink
             createDrink()

@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function DrinkCreator() {
+function drinkCreator() {
+    const [cocktail, setCocktail] = useState(null);
+
     const [ingredients, setIngredients] = useState([""]);
     const [drinkName, setDrinkName] = useState("");
     const [alcoholType, setAlcoholType] = useState("Vodka");
@@ -26,10 +28,60 @@ function DrinkCreator() {
         e.preventDefault();
 
         const drinkData = {
-            name: drinkName,
-            alcoholType: alcoholType,
-            ingredients: ingredients.filter(ing => ing !== "") // Filter out empty selections
+                    dateModified: new Date(),
+                    idDrink: "99999",
+                    strAlcoholic: "Alcoholic",
+                    strCategory: "Other / Unknown",
+                    strCreativeCommonsConfirmed: "No",
+                    strDrink: drinkName,
+                    strDrinkAlternate: null,
+                    strDrinkThumb: null,
+                    strGlass: null,
+                    strIBA: null,
+                    strImageAttribution: null,
+                    strImageSource: null,
+                    strIngredient1: ingredients[0],
+                    strIngredient2: ingredients[1],
+                    strIngredient3: ingredients[2],
+                    strIngredient4: null,
+                    strIngredient5: null,
+                    strIngredient6: null,
+                    strIngredient7: null,
+                    strIngredient8: null,
+                    strIngredient9: null,
+                    strIngredient10: null,
+                    strIngredient11: null,
+                    strIngredient12: null,
+                    strIngredient13: null,
+                    strIngredient14: null,
+                    strIngredient15: null,
+                    strInstructions: null,
+                    strInstructionsDE: null,
+                    strInstructionsES: null,
+                    strInstructionsFR: null,
+                    strInstructionsIT: null,
+                    "strInstructionsZH-HANS": null,
+                    "strInstructions-HANT": null,
+                    strMeasure1: null,
+                    strMeasure2: null,
+                    strMeasure3: null,
+                    strMeasure4: null,
+                    strMeasure5: null,
+                    strMeasure6: null,
+                    strMeasure7: null,
+                    strMeasure8: null,
+                    strMeasure9: null,
+                    strMeasure10: null,
+                    strMeasure11: null,
+                    strMeasure12: null,
+                    strMeasure13: null,
+                    strMeasure14: null,
+                    strMeasure15: null,
+                    strTags: null,
+                    strVideo: null
         };
+        console.log(drinkData)
+        console.log(JSON.stringify(drinkData))
 
         try {
             const response = await fetch('/api/drinks', {
@@ -37,6 +89,8 @@ function DrinkCreator() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(drinkData)
             });
+
+            console.log(response);
 
             const result = await response.json();
             if (response.ok) {
@@ -116,11 +170,13 @@ function DrinkCreator() {
                 >
                     Add Ingredient (Max 3)
                 </button>
+
                 <button type="submit">Create Drink</button>
+
             </form>
             <a href="/">Back to Home</a>
         </div>
     );
 }
 
-export default DrinkCreator;
+export default drinkCreator;

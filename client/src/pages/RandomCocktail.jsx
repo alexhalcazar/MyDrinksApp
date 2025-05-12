@@ -18,6 +18,7 @@ const RandomCocktail = () => {
         }
 
         const data = await response.json();
+        console.log(data)
 
         if (!data.drinks || data.drinks.length === 0) {
           throw new Error('No cocktail data returned from API');
