@@ -2,8 +2,11 @@ package com.alexhalcazar.mydrinksapp
 import com.alexhalcazar.mydrinksapp.model.Drink
 import com.alexhalcazar.mydrinksapp.routes.searchDrink
 import com.alexhalcazar.mydrinksapp.model.addDrink
+import com.alexhalcazar.mydrinksapp.routes.createDrink
 import io.ktor.server.plugins.cors.routing.*
 import com.alexhalcazar.mydrinksapp.service.DrinksApiService
+import com.alexhalcazar.mydrinksapp.services.IngredientCache
+import com.alexhalcazar.mydrinksapp.services.fetchAndCacheAllIngredients
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.engine.*
@@ -17,10 +20,18 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 
 fun main() {
     embeddedServer(Netty, port = 8080) {
+
+        runBlocking {
+            println("Fetching ingredients...")
+            fetchAndCacheAllIngredients()
+            println("All ingredients fetched successfully...")
+        }
+
         install(ContentNegotiation) {
             json(Json {
                 ignoreUnknownKeys = true
@@ -44,6 +55,13 @@ fun main() {
                 addDrink(drink)
                 call.respond(HttpStatusCode.OK, "Drink added to My Drinks")
             }
+
+            get("/api/ingredients") {
+                call.respond(IngredientCache.ingredientsList)
+            }
+
+            // create a drink
+            createDrink()
 
             staticFiles("/", File("src/main/resources/static"))
             staticFiles("/assets", File("src/main/resources/static/assets"))
