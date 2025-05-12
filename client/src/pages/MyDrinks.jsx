@@ -8,6 +8,7 @@ const MyDrinks = () => {
     const [drinks, setDrinks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [filterType, setFilterType] = useState('all')
     const navigate = useNavigate();
     // Calls my-drinks endpoint in Application.kt, to grab any saved
     // drinks in the database
@@ -16,7 +17,8 @@ const MyDrinks = () => {
         setError(null);
 
         try {
-            const response = await fetch('/api/my-drinks');
+            const filter = `?filter=${encodeURIComponent(filterType)}`;
+            const response = await fetch(`/api/my-drinks${filter}`);
 
             if (!response.ok) {
                 throw new Error('Failed to fetch your saved drinks');
@@ -34,7 +36,12 @@ const MyDrinks = () => {
     // Fetches the drinks when the component mounts
     useEffect(() => {
         fetchMyDrinks();
-    }, []);
+    }, [filterType]);
+
+    // Handle Filter Change
+    const handleFilterChange = (e) => {
+        setFilterType(e.target.value);
+    };
 
     // Temp loading feature
     if (loading) {
@@ -73,6 +80,13 @@ const MyDrinks = () => {
         <div className="my-drinks-container">
             <button onClick={goHome} className="home-button">Home</button>
             <h2>My Saved Drinks</h2>
+            <label htmlFor="filter">Filter by type: </label>
+            <select id="filter" value={filterType} onChange={handleFilterChange}>
+                <option value="all">All</option>
+                <option value="Alcoholic">Alcoholic</option>
+                <option value="Non alcoholic">Non alcoholic</option>
+                <option value="None">None</option>
+            </select>
             <div className="drink-list">
               {drinks.map((drink, index) => (
                 <MyDrinkCard key={index} drink={drink} />

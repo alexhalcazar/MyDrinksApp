@@ -53,7 +53,8 @@ fun main() {
             // returns drink list to the front-end, input at `MyDrinks.jsx`
             get("/api/my-drinks") {
                 try {
-                    val drinks = getMyDrinks()
+                    val filter = call.request.queryParameters["filter"]
+                    val drinks = getMyDrinks(filter)
                     call.respond(drinks)
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, "Error fetching drinks: ${e.message}")
