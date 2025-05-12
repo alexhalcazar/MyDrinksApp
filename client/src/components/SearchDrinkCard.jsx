@@ -1,7 +1,9 @@
-import React from "react";
+import {useState, React} from "react";
 import "./SearchDrinkCard.css"
 
 function SearchDrinkCard({ drink }) {
+    const [saveStatus, setSaveStatus] = useState(null);
+
     const SaveDrink = async () => {
         try {
             const response = await fetch("/api/drinks", {
@@ -15,12 +17,12 @@ function SearchDrinkCard({ drink }) {
             if (!response.ok) {
                 throw new Error("Failed to add drink to My Drinks");
             }
-            alert("Drink added to My Drinks"); 
+            setSaveStatus({ success: true, message: "Drink saved to My Drinks!" });
         } catch (error) {
-            alert(error, "Error adding drink to My Drinks");
+            console.error('Error saving drink:', error);
+            setSaveStatus({ success: false, message: "Error adding Drink, might already be saved" });
         }
     };
-    
 
     return (
         <div className="drink-card">
@@ -33,6 +35,11 @@ function SearchDrinkCard({ drink }) {
             {drink.strTags && <p className="drink-tags">Tags: {drink.strTags}</p>}
             <p className="drink-glass">Served in: {drink.strGlass}</p>
             <button className="save-button" onClick={SaveDrink}>Save Drink</button>
+            {saveStatus && (
+                <div className={`save-status ${saveStatus.success ? 'success' : 'error'}`}>
+                {saveStatus.message}
+                </div>
+            )}
             </div>
         </div>
     );
