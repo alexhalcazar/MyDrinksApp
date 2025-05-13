@@ -2,11 +2,8 @@ package com.alexhalcazar.mydrinksapp
 import com.alexhalcazar.mydrinksapp.model.Drink
 import com.alexhalcazar.mydrinksapp.routes.searchDrink
 import com.alexhalcazar.mydrinksapp.model.addDrink
-import com.alexhalcazar.mydrinksapp.routes.createDrink
 import io.ktor.server.plugins.cors.routing.*
 import com.alexhalcazar.mydrinksapp.service.DrinksApiService
-import com.alexhalcazar.mydrinksapp.services.IngredientCache
-import com.alexhalcazar.mydrinksapp.services.fetchAndCacheAllIngredients
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.engine.*
@@ -49,13 +46,6 @@ fun main() {
                 addDrink(drink)
                 call.respond(HttpStatusCode.OK, "Drink added to My Drinks")
             }
-
-//            get("/api/ingredients") {
-//                call.respond(IngredientCache.ingredientsList)
-//            }
-
-            // create a drink
-            createDrink()
 
             staticFiles("/", File("src/main/resources/static"))
             staticFiles("/assets", File("src/main/resources/static/assets"))

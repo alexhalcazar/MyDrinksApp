@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 function drinkCreator() {
-    const [cocktail, setCocktail] = useState(null);
+    // const [cocktail, setCocktail] = useState(null);
 
     const [ingredients, setIngredients] = useState([""]);
     const [drinkName, setDrinkName] = useState("");
@@ -27,11 +27,13 @@ function drinkCreator() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const ingredientStr = `${ingredients[0]}, ${ingredients[1]}, ${ingredients[2]}`;
+
         const drinkData = {
                     dateModified: new Date(),
                     idDrink: "99999",
-                    strAlcoholic: "Alcoholic",
-                    strCategory: "Other / Unknown",
+                    strAlcoholic: "Yes",
+                    strCategory: "User Created",
                     strCreativeCommonsConfirmed: "No",
                     strDrink: drinkName,
                     strDrinkAlternate: null,
@@ -77,11 +79,9 @@ function drinkCreator() {
                     strMeasure13: null,
                     strMeasure14: null,
                     strMeasure15: null,
-                    strTags: null,
+                    strTags: ingredientStr,
                     strVideo: null
         };
-        console.log(drinkData)
-        console.log(JSON.stringify(drinkData))
 
         try {
             const response = await fetch('/api/drinks', {
@@ -90,7 +90,7 @@ function drinkCreator() {
                 body: JSON.stringify(drinkData)
             });
 
-            console.log(response);
+            console.log(response)
 
             const result = await response.json();
             if (response.ok) {
