@@ -27,13 +27,16 @@ function drinkCreator() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const ingredientStr = `${ingredients[0]}, ${ingredients[1]}, ${ingredients[2]}`;
+        // const ingredientStr = `${ingredients[0]}, ${ingredients[1]}, ${ingredients[2]}`;
+        const ingredientStr = ingredients
+            .filter(ingredient => ingredient != null && ingredient !== '')
+            .join(', ');
 
         const drinkData = {
                     dateModified: new Date(),
                     idDrink: "99999",
                     strAlcoholic: "Yes",
-                    strCategory: "User Created",
+                    strCategory: alcoholType,
                     strCreativeCommonsConfirmed: "No",
                     strDrink: drinkName,
                     strDrinkAlternate: null,
@@ -106,76 +109,90 @@ function drinkCreator() {
     };
 
     return (
-        <div className="container">
+        <div className="create-drink-container" align="center">
             <h1>Create Your Drink</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>
-                        Drink Name:
-                        <input
-                            type="text"
-                            value={drinkName}
-                            onChange={(e) => setDrinkName(e.target.value)}
-                            required
-                        />
-                    </label>
-                </div>
 
-                <div>
-                    <label>
-                        Alcohol Type:
-                        <select
-                            value={alcoholType}
-                            onChange={(e) => setAlcoholType(e.target.value)}
-                            required
-                        >
-                            <option value="Whiskey">Whiskey</option>
-                            <option value="Vodka">Vodka</option>
-                            <option value="Rum">Rum</option>
-                            <option value="Gin">Gin</option>
-                            <option value="Tequila">Tequila</option>
-                            <option value="Brandy">Brandy</option>
-                        </select>
-                    </label>
-                </div>
+            <div className="card" >
+                <form onSubmit={handleSubmit} className="drink-form">
+                    <div className="form-group">
+                        <label>
+                            Drink Name:
+                            <input
+                                type="text"
+                                value={drinkName}
+                                onChange={(e) => setDrinkName(e.target.value)}
+                                required
+                                className="form-input"
+                            />
+                        </label>
+                    </div>
 
-                <div>
-                    <label>Ingredients:</label>
-                    {ingredients.map((ingredient, index) => (
-                        <div key={index} className="ingredient-group">
+                    <div className="form-group">
+                        <label>
+                            Alcohol Type:
                             <select
-                                value={ingredient}
-                                onChange={(e) => handleIngredientChange(index, e.target.value)}
+                                value={alcoholType}
+                                onChange={(e) => setAlcoholType(e.target.value)}
+                                required
+                                className="form-input"
                             >
-                                <option value="">Select an ingredient</option>
-                                <option value="Triple Sec">Triple Sec</option>
-                                <option value="Sweet Vermouth">Sweet Vermouth</option>
-                                <option value="Dry Vermouth">Dry Vermouth</option>
-                                <option value="Lime juice">Lime juice</option>
-                                <option value="Lemon juice">Lemon juice</option>
-                                <option value="Mint">Mint</option>
-                                <option value="Syrup">Syrup</option>
-                                <option value="Bitters">Bitters</option>
-                                <option value="Grenadine">Grenadine</option>
-                                <option value="Soda">Soda</option>
+                                <option value="Whiskey">Whiskey</option>
+                                <option value="Vodka">Vodka</option>
+                                <option value="Rum">Rum</option>
+                                <option value="Gin">Gin</option>
+                                <option value="Tequila">Tequila</option>
+                                <option value="Brandy">Brandy</option>
                             </select>
-                        </div>
-                    ))}
-                </div>
+                        </label>
+                    </div>
 
-                <button
-                    type="button"
-                    onClick={addIngredient}
-                    disabled={ingredients.length >= 3}
-                >
-                    Add Ingredient (Max 3)
-                </button>
+                    <div className="form-group">
+                        <label className="ingredients-label">Ingredients:</label>
+                        {ingredients.map((ingredient, index) => (
+                            <div key={index} className="ingredient-group">
+                                <select
+                                    value={ingredient}
+                                    onChange={(e) => handleIngredientChange(index, e.target.value)}
+                                    className="form-input"
+                                >
+                                    <option value="">Select an ingredient</option>
+                                    <option value="Triple Sec">Triple Sec</option>
+                                    <option value="Sweet Vermouth">Sweet Vermouth</option>
+                                    <option value="Dry Vermouth">Dry Vermouth</option>
+                                    <option value="Lime juice">Lime juice</option>
+                                    <option value="Lemon juice">Lemon juice</option>
+                                    <option value="Mint">Mint</option>
+                                    <option value="Syrup">Syrup</option>
+                                    <option value="Bitters">Bitters</option>
+                                    <option value="Grenadine">Grenadine</option>
+                                    <option value="Soda">Soda</option>
+                                </select>
+                            </div>
+                        ))}
+                    </div>
 
-                <button type="submit">Create Drink</button>
+                    <div className="button-group">
+                        <button
+                            type="button"
+                            onClick={addIngredient}
+                            disabled={ingredients.length >= 3}
+                            className="secondary-button"
+                        >
+                            Add Ingredient (Max 3)
+                        </button>
 
-            </form>
-            <a href="/">Back to Home</a>
+                        <button type="submit" className="primary-button">
+                            Create Drink
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <a href="/" className="back-link">Back to Home</a>
         </div>
+
+
+
     );
 }
 
