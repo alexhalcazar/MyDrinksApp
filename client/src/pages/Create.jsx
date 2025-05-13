@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 
 function drinkCreator() {
-    // const [cocktail, setCocktail] = useState(null);
-
     const [ingredients, setIngredients] = useState([""]);
     const [drinkName, setDrinkName] = useState("");
     const [alcoholType, setAlcoholType] = useState("Vodka");
@@ -27,7 +25,6 @@ function drinkCreator() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // const ingredientStr = `${ingredients[0]}, ${ingredients[1]}, ${ingredients[2]}`;
         const ingredientStr = ingredients
             .filter(ingredient => ingredient != null && ingredient !== '')
             .join(', ');
@@ -93,8 +90,6 @@ function drinkCreator() {
                 body: JSON.stringify(drinkData)
             });
 
-            console.log(response)
-
             const result = await response.json();
             if (response.ok) {
                 window.location.href = '/?created=true';
@@ -136,12 +131,28 @@ function drinkCreator() {
                                 required
                                 className="form-input"
                             >
-                                <option value="Whiskey">Whiskey</option>
+                                <option value="Light rum">Light rum</option>
+                                <option value="Bourbon">Bourbon</option>
                                 <option value="Vodka">Vodka</option>
-                                <option value="Rum">Rum</option>
                                 <option value="Gin">Gin</option>
+                                <option value="Blended whiskey">Blended whiskey</option>
                                 <option value="Tequila">Tequila</option>
+                                <option value="Apricot Brandy">Apricot Brandy</option>
+                                <option value="Southern Comfort">Southern Comfort</option>
                                 <option value="Brandy">Brandy</option>
+                                <option value="Lemon vodka">Lemon vodka</option>
+                                <option value="Dark rum">Dark rum</option>
+                                <option value="Scotch">Scotch</option>
+                                <option value="Añejo rum">Añejo rum</option>
+                                <option value="Kahlua">Kahlua</option>
+                                <option value="Irish whiskey">Irish whiskey</option>
+                                <option value="Apple brandy">Apple brandy</option>
+                                <option value="Cherry brandy">Cherry brandy</option>
+                                <option value="Coffee brandy">Coffee brandy</option>
+                                <option value="Rum">Rum</option>
+                                <option value="Cognac">Cognac</option>
+                                <option value="Whiskey">Whiskey</option>
+
                             </select>
                         </label>
                     </div>
@@ -156,16 +167,30 @@ function drinkCreator() {
                                     className="form-input"
                                 >
                                     <option value="">Select an ingredient</option>
-                                    <option value="Triple Sec">Triple Sec</option>
                                     <option value="Sweet Vermouth">Sweet Vermouth</option>
+                                    <option value="Triple Sec">Triple Sec</option>
+                                    <option value="Orange bitters">Orange bitters</option>
                                     <option value="Dry Vermouth">Dry Vermouth</option>
-                                    <option value="Lime juice">Lime juice</option>
-                                    <option value="Lemon juice">Lemon juice</option>
-                                    <option value="Mint">Mint</option>
-                                    <option value="Syrup">Syrup</option>
+                                    <option value="Ameretto">Ameretto</option>
+                                    <option value="Tea">Tea</option>
+                                    <option value="Applejack">Applejack</option>
+                                    <option value="Champagne">Champagne</option>
+                                    <option value="Coffee liqueur">Coffee liqueur</option>
                                     <option value="Bitters">Bitters</option>
+                                    <option value="Sugar">Sugar</option>
+                                    <option value="Dubonnet Rouge">Dubonnet Rouge</option>
+                                    <option value="Lime juice">Lime juice</option>
+                                    <option value="Carbonated water">Carbonated water</option>
+                                    <option value="Creme de Cacao">Creme de Cacao</option>
                                     <option value="Grenadine">Grenadine</option>
-                                    <option value="Soda">Soda</option>
+                                    <option value="Port">Port</option>
+                                    <option value="Red Wine">Red Wine</option>
+                                    <option value="Grapefruit juice">Grapefruit juice</option>
+                                    <option value="Ricard">Ricard</option>
+                                    <option value="Sherry">Sherry</option>
+                                    <option value="Lemon juice">Lemon juice</option>
+                                    <option value="Sugar syrup">Sugar syrup</option>
+                                    <option value="7-Up">7-Up</option>
                                 </select>
                             </div>
                         ))}
@@ -188,11 +213,7 @@ function drinkCreator() {
                 </form>
             </div>
 
-            <a href="/" className="back-link">Back to Home</a>
         </div>
-
-
-
     );
 }
 
