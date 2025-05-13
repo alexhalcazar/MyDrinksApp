@@ -11,4 +11,14 @@ data class Drink(
     val strAlcoholic: String?,
     val strGlass: String?,
     val strDrinkThumb: String?
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Drink) return false
+        return idDrink == other.idDrink
+    }
+
+    override fun hashCode(): Int {
+        return idDrink.hashCode()
+    }
+}

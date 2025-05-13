@@ -1,14 +1,19 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import './RandomCocktail.css';
+import './shared.css'
 
 const RandomCocktail = () => {
   const [cocktail, setCocktail] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [saveStatus, setSaveStatus] = useState(null);
+  const navigate = useNavigate();
 
   const fetchRandomCocktail = async () => {
       setLoading(true);
       setError(null);
+      setSaveStatus(null);
 
       try {
         const response = await fetch('/api/random-drink');
@@ -18,7 +23,6 @@ const RandomCocktail = () => {
         }
 
         const data = await response.json();
-        console.log(data)
 
         if (!data.drinks || data.drinks.length === 0) {
           throw new Error('No cocktail data returned from API');
@@ -30,6 +34,29 @@ const RandomCocktail = () => {
         setError(error.message);
       } finally {
         setLoading(false);
+      }
+    };
+
+    const saveDrink = async () => {
+      if (!cocktail) return;
+
+      try {
+        const response = await fetch("/api/drinks", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cocktail),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to add drink to My Drinks");
+        }
+
+        setSaveStatus({ success: true, message: "Drink saved to My Drinks!" });
+      } catch (error) {
+        console.error('Error saving drink:', error);
+        setSaveStatus({ success: false, message: "Error saving drink. Please try again." });
       }
     };
 
@@ -83,9 +110,12 @@ const RandomCocktail = () => {
     };
 
     const ingredients = getIngredients();
-
+    const goHome = () => {
+      navigate("/");
+    }
     return (
       <div className="random-cocktail-container">
+        <button onClick={goHome} className="home-button">Home</button>
         <h2>{cocktail.strDrink}</h2>
 
         <div className="card">
@@ -121,9 +151,20 @@ const RandomCocktail = () => {
           <p>{cocktail.strInstructions || 'No instructions available'}</p>
         </div>
 
-        <button onClick={fetchRandomCocktail} className="random-drink-button">
-          Get Another Random Drink
-        </button>
+        <div className="action-buttons">
+          <button onClick={fetchRandomCocktail} className="random-drink-button">
+            Get Another Random Drink
+          </button>
+          <button onClick={saveDrink} className="save-button">
+            Save This Drink
+          </button>
+        </div>
+
+        {saveStatus && (
+          <div className={`save-status ${saveStatus.success ? 'success' : 'error'}`}>
+            {saveStatus.message}
+          </div>
+        )}
       </div>
     );
   };

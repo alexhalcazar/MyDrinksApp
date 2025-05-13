@@ -2,6 +2,7 @@ package com.alexhalcazar.mydrinksapp
 import com.alexhalcazar.mydrinksapp.model.Drink
 import com.alexhalcazar.mydrinksapp.routes.searchDrink
 import com.alexhalcazar.mydrinksapp.model.addDrink
+import com.alexhalcazar.mydrinksapp.model.getMyDrinks
 import io.ktor.server.plugins.cors.routing.*
 import com.alexhalcazar.mydrinksapp.service.DrinksApiService
 import io.ktor.server.response.*
@@ -17,12 +18,10 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 
 fun main() {
     embeddedServer(Netty, port = 8080) {
-
         install(ContentNegotiation) {
             json(Json {
                 ignoreUnknownKeys = true
@@ -32,6 +31,10 @@ fun main() {
         }
 
         routing {
+            // serve static files from the root path
+            staticFiles("/", File("src/main/resources/static"))
+            // serve static assets
+            staticFiles("/assets", File("src/main/resources/static/assets"))
             //example: /search?name=margarita
             get("/api/drinks") {
                 val name:String? = call.request.queryParameters["name"]
@@ -43,18 +46,25 @@ fun main() {
             }
             post("/api/drinks") {
                 val drink = call.receive<Drink>()
-                addDrink(drink)
-                call.respond(HttpStatusCode.OK, "Drink added to My Drinks")
+                if (addDrink(drink)) {
+                    call.respondText("Drink added to My Drinks", status = io.ktor.http.HttpStatusCode.OK)
+                } else {
+                    call.respondText("Drink already in My Drinks", status = io.ktor.http.HttpStatusCode.BadRequest)
+                }
+
             }
 
-            staticFiles("/", File("src/main/resources/static"))
-            staticFiles("/assets", File("src/main/resources/static/assets"))
-
-            get("/") {
-                call.respondFile(File("src/main/resources/static/index.html"))
+            // returns drink list to the front-end, input at `MyDrinks.jsx`
+            get("/api/my-drinks") {
+                try {
+                    val filter = call.request.queryParameters["filter"]
+                    val drinks = getMyDrinks(filter)
+                    call.respond(drinks)
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, "Error fetching drinks: ${e.message}")
+                }
             }
 
-            // Proxy route for the frontend
             get("/api/random-drink") {
                 try {
                     val cocktailJson = DrinksApiService.fetchRandomCocktailJson()
@@ -62,6 +72,10 @@ fun main() {
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, "Error fetching cocktail data: ${e.message}")
                 }
+            }
+
+            get("/") {
+                call.respondFile(File("src/main/resources/static/index.html"))
             }
         }
     }.start(wait = true)
