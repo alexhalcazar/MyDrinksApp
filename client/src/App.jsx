@@ -23,6 +23,7 @@ const App = () => {
                                     title="Create Drink"
                                     imgSrc={createDrink}
                                     imgAlt="A drink"
+                                    link="/create"
                                 />
                                 <Card
                                     title="My Drinks"
