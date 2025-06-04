@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function drinkCreator() {
     const [ingredients, setIngredients] = useState([""]);
     const [drinkName, setDrinkName] = useState("");
     const [alcoholType, setAlcoholType] = useState("Vodka");
+    const [saveStatus, setSaveStatus] = useState(null);
+    const navigate = useNavigate();
 
     const resetForm = () => {
         setDrinkName("");
@@ -22,65 +25,27 @@ function drinkCreator() {
         setIngredients(newIngredients);
     };
 
+    const goHome = () => {
+        navigate("/");
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const ingredientStr = ingredients
             .filter(ingredient => ingredient != null && ingredient !== '')
             .join(', ');
 
         const drinkData = {
-                    dateModified: new Date(),
-                    idDrink: "99999",
+                    idDrink: Date.now().toString(),
                     strAlcoholic: "Yes",
                     strCategory: alcoholType,
-                    strCreativeCommonsConfirmed: "No",
                     strDrink: drinkName,
-                    strDrinkAlternate: null,
-                    strDrinkThumb: null,
+                    strDrinkThumb: "https://www.thecocktaildb.com/images/media/drink/qyxrqw1439906528.jpg",
                     strGlass: null,
-                    strIBA: null,
-                    strImageAttribution: null,
-                    strImageSource: null,
                     strIngredient1: ingredients[0],
                     strIngredient2: ingredients[1],
                     strIngredient3: ingredients[2],
-                    strIngredient4: null,
-                    strIngredient5: null,
-                    strIngredient6: null,
-                    strIngredient7: null,
-                    strIngredient8: null,
-                    strIngredient9: null,
-                    strIngredient10: null,
-                    strIngredient11: null,
-                    strIngredient12: null,
-                    strIngredient13: null,
-                    strIngredient14: null,
-                    strIngredient15: null,
-                    strInstructions: null,
-                    strInstructionsDE: null,
-                    strInstructionsES: null,
-                    strInstructionsFR: null,
-                    strInstructionsIT: null,
-                    "strInstructionsZH-HANS": null,
-                    "strInstructions-HANT": null,
-                    strMeasure1: null,
-                    strMeasure2: null,
-                    strMeasure3: null,
-                    strMeasure4: null,
-                    strMeasure5: null,
-                    strMeasure6: null,
-                    strMeasure7: null,
-                    strMeasure8: null,
-                    strMeasure9: null,
-                    strMeasure10: null,
-                    strMeasure11: null,
-                    strMeasure12: null,
-                    strMeasure13: null,
-                    strMeasure14: null,
-                    strMeasure15: null,
-                    strTags: ingredientStr,
-                    strVideo: null
+                    strTags: ingredientStr
         };
 
         try {
@@ -89,15 +54,11 @@ function drinkCreator() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(drinkData)
             });
-
-            const result = await response.json();
             if (response.ok) {
-                window.location.href = '/?created=true';
-            } else {
-                alert(`Error: ${result.error}`);
+                setSaveStatus({ success: true, message: "Drink saved to My Drinks!" });
             }
         } catch (error) {
-                console.log(error.message)
+            setSaveStatus({ success: false, message: "Error saving drink. Please try again." })
         } finally {
             resetForm();
         }
@@ -105,8 +66,8 @@ function drinkCreator() {
 
     return (
         <div className="create-drink-container" align="center">
+            <button onClick={goHome} className="home-button">Home</button>
             <h1>Create Your Drink</h1>
-
             <div className="card" >
                 <form onSubmit={handleSubmit} className="drink-form">
                     <div className="form-group">
@@ -211,8 +172,12 @@ function drinkCreator() {
                         </button>
                     </div>
                 </form>
+                {saveStatus && (
+                    <div className={`save-status ${saveStatus.success ? 'success' : 'error'}`}>
+                        {saveStatus.message}
+                    </div>
+                )}
             </div>
-
         </div>
     );
 }
