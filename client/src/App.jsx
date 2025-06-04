@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SearchDrink from "./pages/SearchDrink.jsx";
 import MyDrinks from "./pages/MyDrinks.jsx";
 import RandomCocktail from "./pages/RandomCocktail.jsx";
+import Create from "./pages/Create.jsx"
 import Card from './components/Card.jsx'
 import './App.css'
 import createDrink from './assets/createDrink.jpg';
@@ -22,6 +23,7 @@ const App = () => {
                                     title="Create Drink"
                                     imgSrc={createDrink}
                                     imgAlt="A drink"
+                                    link="/create"
                                 />
                                 <Card
                                     title="My Drinks"
@@ -46,6 +48,7 @@ const App = () => {
                         <Route path="/search" element={<SearchDrink />} />
                         <Route path="/random" element={<RandomCocktail />} />
                         <Route path="/list" element={<MyDrinks />} />
+                        <Route path="/create" element={<Create />} />
                     </Routes>
                 </div>
                 <footer>

@@ -7,9 +7,12 @@ import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
-import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.*
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.JsonArray
+import kotlin.reflect.typeOf
 
 suspend fun searchApiName(name: String): DrinkResponse {
     val client = HttpClient(CIO) {

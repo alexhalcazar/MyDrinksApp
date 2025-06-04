@@ -1,5 +1,6 @@
 package com.alexhalcazar.mydrinksapp.model
 
+import com.mongodb.MongoWriteException
 import kotlinx.coroutines.flow.toList
 
 suspend fun addDrink(drink: Drink): Boolean {
@@ -8,14 +9,13 @@ suspend fun addDrink(drink: Drink): Boolean {
         return false
     }
     val collection = database.getCollection<Drink>("drinks")
-    val drinks:List<Drink> = collection.find().toList()
-    drinks.forEach { d ->
-        if (drink == d) {
-            return false
-        }
+    return try {
+        collection.insertOne(drink)
+        true
+    } catch (e: MongoWriteException) {
+        println("MongoWriteException code: ${e.error.code}, message: ${e.error.message}")
+        false
     }
-    collection.insertOne(drink)
-    return true
 }
 
 // Function built for pulling drinks stored in the mongo db
